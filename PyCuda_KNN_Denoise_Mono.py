@@ -13,7 +13,7 @@ from pycuda.elementwise import ElementwiseKernel
 from pycuda.compiler import SourceModule
 
 
-# KNN Denoise filter for monochrome image V1.0
+# KNN Denoise filter for monochrome image V1.1
 # Based on KNN filter CUDA program provided by Nvidia - CUDA SDK samples
 # Alain PAILLOU - August 2019
 
