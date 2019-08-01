@@ -13,7 +13,7 @@ from pycuda.elementwise import ElementwiseKernel
 from pycuda.compiler import SourceModule
 
 
-# Fast NLM Denoise filter for colour image V1.0
+# Fast NLM Denoise filter for colour image V1.1
 # Based on Fast NLM filter CUDA program provided by Nvidia - CUDA SDK samples
 # Alain PAILLOU - August 2019
 
@@ -46,11 +46,16 @@ unsigned char *img_b, int imageW, int imageH, float Noise, float lerpC)
     const float  y = (float)iy  + 1.0f;
     const float cx = blockDim.x * blockIdx.x + NLM_WINDOW_RADIUS + 1.0f;
     const float cy = blockDim.x * blockIdx.y + NLM_WINDOW_RADIUS + 1.0f;
+    const float limxmin = NLM_BLOCK_RADIUS + 2;
+    const float limxmax = imageW - NLM_BLOCK_RADIUS - 2;
+    const float limymin = NLM_BLOCK_RADIUS + 2;
+    const float limymax = imageH - NLM_BLOCK_RADIUS - 2;
+   
     
     long int index4;
     long int index5;
 
-    if(ix < imageW && iy < imageH){
+    if(ix>limxmin && ix<limxmax && iy>limymin && iy<limymax){
         //Find color distance from current texel to the center of NLM window
         float weight = 0;
 
@@ -126,7 +131,7 @@ unsigned char *img_b, int imageW, int imageH, float Noise, float lerpC)
         //Write final result to global memory
         float3 clr00 = {0.0, 0.0, 0.0};
         index4 = x + (y * imageW);
-        index5 = imageW * iy + ix;
+        index5 = imageW * (iy + 1) + ix + 1;
          
         clr00.x = img_r[index4] / 256.0;
         clr00.y = img_g[index4] / 256.0;
