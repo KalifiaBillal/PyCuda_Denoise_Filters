@@ -41,12 +41,16 @@ __global__ void KNN_Mono(unsigned char *dest_r, unsigned char *img_r, int imageW
 
     const float  x = (float)ix  + 1.0f;
     const float  y = (float)iy  + 1.0f;
+    const float limxmin = NLM_BLOCK_RADIUS + 2;
+    const float limxmax = imageW - NLM_BLOCK_RADIUS - 2;
+    const float limymin = NLM_BLOCK_RADIUS + 2;
+    const float limymax = imageH - NLM_BLOCK_RADIUS - 2;
+   
     
     long int index4;
     long int index5;
 
-  
-    if(ix < imageW && iy < imageH){
+    if(ix>limxmin && ix<limxmax && iy>limymin && iy<limymax){
         //Normalized counter for the weight threshold
         float fCount = 0;
         //Total sum of pixel weights
@@ -57,7 +61,7 @@ __global__ void KNN_Mono(unsigned char *dest_r, unsigned char *img_r, int imageW
         float clrIJ = 0.0;
         //Center of the KNN window
         index4 = x + (y * imageW);
-        index5 = imageW * iy + ix;
+        index5 = imageW * (iy + 1) + ix + 1;
          
         clr00 = img_r[index4];
 
