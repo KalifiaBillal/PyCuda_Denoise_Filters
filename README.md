@@ -14,6 +14,6 @@ I had to change CUDA examples to avoid Tex2D use in order to simply use my pictu
 Those programs where tested with Nvidia Jetson Nano (L4T OS).
 
 
-UPDATE August 1st 2019
+**** UPDATE August 1st 2019
 
 Code has been changed to avoid border effect error (array index out of range)
