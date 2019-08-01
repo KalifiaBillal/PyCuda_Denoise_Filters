@@ -42,12 +42,16 @@ unsigned char *img_b, int imageW, int imageH, float Noise, float lerpC)
 
     const float  x = (float)ix  + 1.0f;
     const float  y = (float)iy  + 1.0f;
+    const float limxmin = NLM_BLOCK_RADIUS + 2;
+    const float limxmax = imageW - NLM_BLOCK_RADIUS - 2;
+    const float limymin = NLM_BLOCK_RADIUS + 2;
+    const float limymax = imageH - NLM_BLOCK_RADIUS - 2;
+   
     
     long int index4;
     long int index5;
 
-  
-    if(ix < imageW && iy < imageH){
+    if(ix>limxmin && ix<limxmax && iy>limymin && iy<limymax){
         //Normalized counter for the weight threshold
         float fCount = 0;
         //Total sum of pixel weights
@@ -58,7 +62,7 @@ unsigned char *img_b, int imageW, int imageH, float Noise, float lerpC)
         float3 clrIJ = {0, 0, 0};
         //Center of the KNN window
         index4 = x + (y * imageW);
-        index5 = imageW * iy + ix;
+        index5 = imageW * (iy + 1) + ix + 1;
          
         clr00.x = img_r[index4];
         clr00.y = img_g[index4];
