@@ -12,3 +12,8 @@ initial CUDA examples use Tex2D to perform denoise.
 I had to change CUDA examples to avoid Tex2D use in order to simply use my pictures (3D arrays with 0-255 range values) withou using texture functions.
 
 Those programs where tested with Nvidia Jetson Nano (L4T OS).
+
+
+UPDATE August 1st 2019
+
+Code has been changed to avoid border effect error (array index out of range)
